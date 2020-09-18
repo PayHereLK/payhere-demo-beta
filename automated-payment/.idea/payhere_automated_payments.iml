@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="l8" />
+    <orderEntry type="module" module-name="laravel-keditor" />
+    <orderEntry type="module" module-name="recurring_payments" />
+    <orderEntry type="module" module-name="recurring_payments" />
+    <orderEntry type="module" module-name="retreiving-api" />
+    <orderEntry type="module" module-name="wordpress" />
+    <orderEntry type="module" module-name="pos_installment" />
+    <orderEntry type="module" module-name="instructor.lk" />
+  </component>
+</module>

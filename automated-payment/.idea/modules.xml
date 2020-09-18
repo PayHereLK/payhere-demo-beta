@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../instructor.lk/.idea/instructor.lk.iml" filepath="$PROJECT_DIR$/../instructor.lk/.idea/instructor.lk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../l8/.idea/l8.iml" filepath="$PROJECT_DIR$/../l8/.idea/l8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../laravel-keditor/.idea/laravel-keditor.iml" filepath="$PROJECT_DIR$/../laravel-keditor/.idea/laravel-keditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/payhere_automated_payments.iml" filepath="$PROJECT_DIR$/.idea/payhere_automated_payments.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pos_installment/.idea/pos_installment.iml" filepath="$PROJECT_DIR$/../pos_installment/.idea/pos_installment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../recurring-payments/.idea/recurring_payments.iml" filepath="$PROJECT_DIR$/../recurring-payments/.idea/recurring_payments.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../retreival-api/.idea/retreiving-api.iml" filepath="$PROJECT_DIR$/../retreival-api/.idea/retreiving-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wordpress/.idea/wordpress.iml" filepath="$PROJECT_DIR$/../wordpress/.idea/wordpress.iml" />
+    </modules>
+  </component>
+</project>
