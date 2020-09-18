@@ -38,7 +38,7 @@
                             Charging</a> introduction first.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="chaging-form" class="btn btn-primary">Visit</a>
+                    <a href="subscription-manager-form" class="btn btn-primary">Visit</a>
                 </div>
             </div>
         </div>
