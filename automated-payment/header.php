@@ -28,9 +28,15 @@ if (session_status() == PHP_SESSION_NONE) {
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="./">Home
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Navigate
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="../automated-payment">Automated Payment Guide</a>
+                        <a class="dropdown-item" href="../recurring-payments">Recurring Payment Guide</a>
+                        <a class="dropdown-item" href="../retreival-api">Payment Retrieval Guide</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./pre-approval-form">Pre Approval From</a>
