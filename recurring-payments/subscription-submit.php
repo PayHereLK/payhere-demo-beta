@@ -19,10 +19,10 @@ function getAuthorizationToken()
 
     $url = 'https://sandbox.payhere.lk/merchant/v1/oauth/token';
 
-    if (!empty($_POST['app_id']) && !empty($_POST['app_secret'])) {
+    if (!empty($_REQUEST['app_id']) && !empty($_REQUEST['app_secret'])) {
         $_SESSION['app_id'] = $_POST['app_id'];
         $_SESSION['app_secret'] = $_POST['app_secret'];
-        $bs64 = base64_encode($_POST['app_id'] . ':' . $_POST['app_secret']);
+        $bs64 = base64_encode($_REQUEST['app_id'] . ':' . $_REQUEST['app_secret']);
     } else {
         if (isset($_SESSION['app_id']) && isset($_SESSION['app_secret'])) {
             $bs64 = base64_encode($_SESSION['app_id'] . ':' . $_SESSION['app_secret']);

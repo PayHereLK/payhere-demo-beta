@@ -5,7 +5,9 @@
             <h4>Subscription Manager API</h4>
             <p>PayHere Subscription Manager API lets you view, retry & cancel your subscription customers
                 programmatically you subscribed from Recurring API.
-                If you're new to <a href="https://support.payhere.lk/api-&-mobile-sdk/payhere-recurring">Recurring API</a>, please refer <a href="https://support.payhere.lk/faq/recurring-billing">Recurring Billing</a> introduction first.
+                If you're new to <a href="https://support.payhere.lk/api-&-mobile-sdk/payhere-recurring">Recurring
+                    API</a>, please refer <a href="https://support.payhere.lk/faq/recurring-billing">Recurring
+                    Billing</a> introduction first.
 
         </div>
     </div>
@@ -33,14 +35,16 @@
                         Base64 preview
                     </div>
                     <div class="col-sm-6 text-right">
-                        <button type="button" class="btn btn-primary btn-sm" id="base64_encode">Generate Base 64 Value</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="base64_encode">Generate Base 64 Value
+                        </button>
                     </div>
                 </div>
                 <p style="line-break: anywhere;"><strong class="text-info" id="base64_code"></strong></p>
 
                 <div class="form-group row">
                     <div class="col-sm-12 text-right">
-                        <a href="subscription-view-html" class="btn btn-outline-success float-left">Subscription List</a>
+                        <a href="subscription-view-html" id="view-btn" class="btn btn-outline-success float-left">Subscription
+                            List</a>
                         <button type="button" class="btn btn-primary" id="chargin-submit">Submit</button>
                     </div>
                 </div>
@@ -74,20 +78,31 @@
         });
 
         $("#chargin-submit").click(function () {
-            $("#chargin-submit").addClass('disabled').attr({disabled:true}).html('Processing');
+            $("#chargin-submit").addClass('disabled').attr({disabled: true}).html('Processing');
             $.ajax({
-                url:'subscription-submit',
-                type:'POST',
-                dataType:'JSON',
-                data:$("#submit-form").serialize(),
-                success:function (data) {
-            $("#chargin-submit").removeClass('disabled').attr({disabled:false}).html('Submit');
+                url: 'subscription-submit',
+                type: 'POST',
+                dataType: 'JSON',
+                data: $("#submit-form").serialize(),
+                success: function (data) {
+                    $("#chargin-submit").removeClass('disabled').attr({disabled: false}).html('Submit');
                     var jsonPretty = JSON.stringify(data, null, 2);
                     $("#form_preview").html(jsonPretty);
                 }
             });
         });
 
+        $("#view-btn").click(function (event) {
+            let app_id = $("#app_id").val();
+            let app_secret = $("#app_secret").val();
+
+            if (typeof app_id !== 'undefined' && app_id !== '' && typeof app_secret !== 'undefined' && app_secret !== '') {
+                $(this).attr({href: 'subscription-view-html?app_id=' + app_id + '&app_secret=' + app_secret});
+            } else {
+                event.preventDefault();
+                alert("Business App ID and Business APP Secret is Required.");
+            }
+        });
     });
 </script>
 <?php include 'footer.php' ?>

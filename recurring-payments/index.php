@@ -31,11 +31,11 @@
         <div class="col-lg-6 col-md-6 mb-6">
             <div class="card h-100">
                 <div class="card-body">
-                    <h4 class="card-title">Charging From</h4>
-                    <p class="card-text">PayHere Charging API lets you charge your preapproved customers programatically
-                        on demand using the encrypted tokens you retrieved from Preapproval API. If you're new to
-                        Charging API, please refer <a href="https://support.payhere.lk/faq/automated-charging">Automated
-                            Charging</a> introduction first.</p>
+                    <h4 class="card-title">Subscription Manager</h4>
+                    <p class="card-text">PayHere Subscription Manager API lets you view, retry &
+                        cancel your subscription customers programmatically you subscribed from <a href="https://support.payhere.lk/api-&-mobile-sdk/payhere-recurring">Recurring API</a>.
+                        If you're new to Recurring API, please refer <a href="https://support.payhere.lk/faq/recurring-billing">Recurring Billing</a> introduction first.
+                        Charging API, please refer.</p>
                 </div>
                 <div class="card-footer">
                     <a href="subscription-manager-form" class="btn btn-primary">Visit</a>
