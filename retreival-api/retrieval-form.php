@@ -52,6 +52,20 @@ function getPayment($token)
     return FALSE;
 }
 
+$app_id = '';
+$app_secret = '';
+
+if (!empty($_REQUEST['app_id']) && !empty($_REQUEST['app_secret'])) {
+    $app_id = $_REQUEST['app_id'];
+    $app_secret = $_REQUEST['app_secret'];
+    $bs64 = base64_encode($app_id . ':' . $app_secret);
+} else {
+    if (isset($_SESSION['app_id']) && isset($_SESSION['app_secret'])) {
+        $bs64 = base64_encode($_SESSION['app_id'] . ':' . $_SESSION['app_secret']);
+    } else {
+        $bs64 = 'NE9WeDNIVUx1S1c0SjlMZzF2clJyZDNIQzo0OWFNb0Z3WjFqVThRamh6d3NkRERwNGVaRUNJVEE0ckg0Zlhub2RjbWpNag==';
+    }
+}
 ?>
 
     <div class="container">
@@ -67,7 +81,7 @@ function getPayment($token)
                     <div class="form-group row">
                         <label for="app_id" class="col-sm-2 col-form-label">Business App ID</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="app_id" name="app_id" placeholder="">
+                            <input type="text" class="form-control" id="app_id" value="<?php echo $app_id ?>" name="app_id" placeholder="">
                             <small><em>You can leave this field.</em></small>
                             <p class="text-danger"></p>
                         </div>
@@ -80,7 +94,7 @@ function getPayment($token)
                     <div class="form-group row">
                         <label for="app_secret" class="col-sm-2 col-form-label">Business App Secret</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="app_secret" name="app_secret" placeholder="">
+                            <input type="text" class="form-control" id="app_secret" value="<?php echo $app_secret ?>" name="app_secret" placeholder="">
                             <small><em>You can leave this field.</em></small>
                             <p class="text-danger"></p>
                         </div>

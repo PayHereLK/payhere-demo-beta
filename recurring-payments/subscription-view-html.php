@@ -133,7 +133,7 @@
                             $(td7).html(subcription.currency + ' ' + subcription.amount);
                             var action = document.createElement('a');
                             $(action).attr({
-                                'href': '/payhere-demo-beta/retreival-api/retrieval-form?id=' + subcription.order_id,
+                                'href': '/payhere-demo-beta/retreival-api/retrieval-form?id=' + subcription.order_id+'&app_id=<?php echo $_GET['app_id']?>&app_secret=<?php echo $_GET['app_secret']?>',
                                 target: '_BLANK'
                             }).addClass('btn btn-sm btn-primary').html('Details')
                             // .click(function (event) {
