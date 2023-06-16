@@ -16,21 +16,12 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-    <title>Payhere Recurring Payments</title>
-    <style>
-        table > tbody {
-            font-size: 12px;
-        }
-
-        table > thead {
-            font-size: 13px;
-        }
-    </style>
+    <title>Checkout API</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="./">Payhere Retrieval API</a>
+        <a class="navbar-brand" href="#">Checkout API (One time Payment)</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

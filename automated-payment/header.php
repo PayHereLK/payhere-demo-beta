@@ -33,16 +33,17 @@ if (session_status() == PHP_SESSION_NONE) {
                         Navigate
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="../checkout-api">Checkout API Guide</a>
                         <a class="dropdown-item" href="../automated-payment">Automated Payment Guide</a>
                         <a class="dropdown-item" href="../recurring-payments">Recurring Payment Guide</a>
                         <a class="dropdown-item" href="../retreival-api">Payment Retrieval Guide</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./pre-approval-form">Pre Approval From</a>
+                    <a class="nav-link" href="../automated-payment/pre-approval-form">Pre Approval From</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./chaging-form">Charging From</a>
+                    <a class="nav-link" href="../automated-payment/chaging-form">Charging From</a>
                 </li>
             </ul>
         </div>
