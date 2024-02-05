@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <title>PayHere Demo Site</title>
     <meta charset="utf-8">

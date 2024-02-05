@@ -1,10 +1,10 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 <style>
-    table > tbody {
+    table>tbody {
         font-size: 12px;
     }
 
-    table > thead {
+    table>thead {
         font-size: 13px;
     }
 </style>
@@ -21,21 +21,23 @@
             <p class="count"></p>
             <table class="table table-bordered">
                 <thead>
-                <tr>
-                    <th>Subscription ID</th>
-                    <th>Order ID</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Recurring</th>
-                    <th>Customer</th>
-                    <th>Amount</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>Subscription ID</th>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Recurring</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td colspan="8"><p class="text-center"><em>Loading...</em></p></td>
-                </tr>
+                    <tr>
+                        <td colspan="8">
+                            <p class="text-center"><em>Loading...</em></p>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -55,30 +57,29 @@
                 <div id="content" style="display: none">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-html-tab" data-toggle="tab" href="#nav-html"
-                               role="tab" aria-controls="nav-home" aria-selected="true">HTML</a>
-                            <a class="nav-item nav-link" id="nav-json-tab" data-toggle="tab" href="#nav-json" role="tab"
-                               aria-controls="nav-profile" aria-selected="false">JSON</a>
+                            <a class="nav-item nav-link active" id="nav-html-tab" data-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-home" aria-selected="true">HTML</a>
+                            <a class="nav-item nav-link" id="nav-json-tab" data-toggle="tab" href="#nav-json" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-html" role="tabpanel"
-                             aria-labelledby="nav-html-tab">
+                        <div class="tab-pane fade show active" id="nav-html" role="tabpanel" aria-labelledby="nav-html-tab">
                             <table class="table table-bordered">
                                 <thead>
-                                <tr>
-                                    <th>Payment ID</th>
-                                    <th>Order ID</th>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Customer</th>
-                                    <th>Amount</th>
-                                </tr>
+                                    <tr>
+                                        <th>Payment ID</th>
+                                        <th>Order ID</th>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="modal_tbody">
-                                <tr>
-                                    <td colspan="8"><p class="text-center"><em>Loading...</em></p></td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="8">
+                                            <p class="text-center"><em>Loading...</em></p>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -92,24 +93,26 @@
     </div>
 </div>
 <script>
-
-    $(document).ready(function () {
+    const baseURL = '<?php echo FRT_BASE_URL ?>';
+    $(document).ready(function() {
         getData();
     });
 
     function getData() {
         $.ajax({
-            url: 'subscription-submit?app_id=<?php echo $_GET['app_id'] ?>&app_secret=<?php echo $_GET['app_secret']?>',
+            url: 'subscription-submit?app_id=<?php echo $_GET['app_id'] ?>&app_secret=<?php echo $_GET['app_secret'] ?>',
             type: 'POST',
             dataType: 'JSON',
             data: $("#submit-form").serialize(),
-            success: function (data) {
+            success: function(data) {
                 $('tbody').html('');
-                $("#chargin-submit").removeClass('disabled').attr({disabled: false}).html('Submit');
+                $("#chargin-submit").removeClass('disabled').attr({
+                    disabled: false
+                }).html('Submit');
                 if (data.all_subscription_response.data) {
                     $(".count").html(data.all_subscription_response.msg);
                     if (data.all_subscription_response.data.length > 0) {
-                        $.each(data.all_subscription_response.data, function (i, row) {
+                        $.each(data.all_subscription_response.data, function(i, row) {
                             var subcription = row;
                             var tr = document.createElement('tr');
                             var td1 = document.createElement('td');
@@ -129,17 +132,13 @@
                             $(td3).html(subcription.date);
                             $(td4).html(subcription.description);
                             $(td5).html(subcription.recurring);
-                            $(td6).html(subcription.customer.fist_name + " " + subcription.customer.last_name);
+                            $(td6).html(subcription.customer?.fist_name + " " + subcription.customer?.last_name);
                             $(td7).html(subcription.currency + ' ' + subcription.amount);
                             var action = document.createElement('a');
                             $(action).attr({
-                                'href': '/payhere-demo-beta/retreival-api/retrieval-form?id=' + subcription.order_id+'&app_id=<?php echo $_GET['app_id']?>&app_secret=<?php echo $_GET['app_secret']?>',
+                                'href': baseURL + '/retreival-api/retrieval-form?id=' + subcription.order_id + '&app_id=<?php echo $_GET['app_id'] ?>&app_secret=<?php echo $_GET['app_secret'] ?>',
                                 target: '_BLANK'
                             }).addClass('btn btn-sm btn-primary').html('Details')
-                            // .click(function (event) {
-                            //         event.preventDefault();
-                            //         getSubscription(subcription.subscription_id);
-                            //     });
 
                             $(td8).html(action);
 
@@ -156,14 +155,18 @@
         $("#modal_tbody").html('');
         $("#loader").show();
         $("#content").hide();
-        $('#details-model').modal({show: true});
+        $('#details-model').modal({
+            show: true
+        });
         $.ajax({
             url: 'subscription-single-get',
             type: 'POST',
             dataType: 'JSON',
-            data: {'subscription_id': id},
-            success: function (data) {
-                $("#loader").slideUp(500, function () {
+            data: {
+                'subscription_id': id
+            },
+            success: function(data) {
+                $("#loader").slideUp(500, function() {
                     $("#content").slideDown(500);
                 });
                 $('#details-model').find('h5.modal-title').html('Subscription Details : ' + id);
@@ -185,13 +188,15 @@
                         $(span).html(payment_data.status).addClass(payment_data.status == 'RECEIVED' ? 'badge badge-success' : 'badge badge-danger');
 
                         var action = document.createElement('a');
-                        $(action).html(payment_data.payment_id).attr({href: 'http://localhost/retreival-api/retrieval-form?payment_id=' + payment_data.payment_id});
+                        $(action).html(payment_data.payment_id).attr({
+                            href: 'http://localhost/retreival-api/retrieval-form?payment_id=' + payment_data.payment_id
+                        });
                         $(td1).html(action).append('<br/>', span);
                         $(td2).html(payment_data.order_id);
                         $(td3).html(payment_data.date);
                         $(td4).html(payment_data.description);
                         $(td5).html(payment_data.currency + " " + payment_data.amount);
-                        $(td6).html(payment_data.customer.fist_name + " " + payment_data.customer.last_name);
+                        $(td6).html(payment_data.customer?.fist_name + " " + payment_data.customer?.last_name);
 
                         $(tr).append(td1, td2, td3, td4, td5, td6);
                         $("#modal_tbody").append(tr);
@@ -205,4 +210,4 @@
         });
     }
 </script>
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

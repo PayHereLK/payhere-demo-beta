@@ -1,5 +1,4 @@
 (function() {
-    console.log('Payhere button');
     var _payhere_script = document.getElementById("payhere-button");
     var id = _payhere_script.src.split("id=")[1];
 
@@ -16,7 +15,7 @@
         button.setAttribute(key, attrs[key]);
     }
     button.value = 'Buy Now';
-    form.setAttribute('action', 'https://sandbox.payhere.lk/stag_pay/' + id);
+    form.setAttribute('action', `https://www.payhere.lk/pay/${id}`);
     form.setAttribute('method', 'get');
 
     var target = document.getElementById('payhere-form');

@@ -1,8 +1,10 @@
 <?php
+include_once 'constants.php';
+
 function getAuthorizationToken()
 {
 
-    $url = 'https://sandbox.payhere.lk/merchant/v1/oauth/token';
+    $url = API_BASE_URL . 'oauth/token';
 
     if (!empty($_REQUEST['app_id']) && !empty($_REQUEST['app_secret'])) {
         $_SESSION['app_id'] = $_REQUEST['app_id'];

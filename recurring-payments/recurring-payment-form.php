@@ -1,4 +1,5 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
+
 <div class="container">
     <div class="row mt-5">
         <div class="col-lg-12">
@@ -16,7 +17,7 @@
     </div>
     <div class="row mt-5">
         <div class="col-lg-8">
-            <form action="https://sandbox.payhere.lk/pay/checkout" method="post">
+            <form action="<?php echo IPG_BASE_URL . 'checkout' ?>" method="post" id="recurring-form">
                 <div class="form-group row">
                     <label for="merchant_id" class="col-sm-2 col-form-label">Merchant ID</label>
                     <div class="col-sm-10">
@@ -24,12 +25,15 @@
                         <small><em>You can leave this field.</em></small>
                     </div>
                 </div>
-                <input type="hidden" name="return_url"
-                       value="http://payhere.bhasha.lk/payhere-demo-beta/recurring-payments/recurring-payment-view">
-                <input type="hidden" name="cancel_url"
-                       value="http://payhere.bhasha.lk/payhere-demo-beta/recurring-payments/recurring-payment-view">
-                <input type="hidden" name="notify_url"
-                       value="http://payhere.bhasha.lk/payhere-demo-beta/recurring-payments/recurring-payment-notify">
+                <div class="form-group row">
+                    <label for="merchant_id" class="col-sm-2 col-form-label">Merchant Secret</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="merchant_secret" name="merchant_secret" placeholder="">
+                    </div>
+                </div>
+                <input type="hidden" name="return_url" value="<?php echo FRT_BASE_URL . 'recurring-payments/recurring-payment-view' ?>">
+                <input type="hidden" name="cancel_url" value="<?php echo FRT_BASE_URL . 'recurring-payments/recurring-payment-view' ?>">
+                <input type="hidden" name="notify_url" value="<?php echo FRT_BASE_URL . 'recurring-payments/recurring-payment-notify' ?>">
                 <input type="hidden" name="custom_2" value="<?php echo session_id() ?>">
                 <div class="form-group row">
                     <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
@@ -66,22 +70,19 @@
                     </div>
                     <label for="country" class="col-sm-2 col-form-label">Country</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="country" name="country" placeholder=""
-                               value="Sri Lanka">
+                        <input type="text" class="form-control" id="country" name="country" placeholder="" value="Sri Lanka">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="order_id" class="col-sm-2 col-form-label">Order ID</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="order_id" name="order_id" placeholder=""
-                               value="<?php echo rand(10000, 99999) ?>"/>
+                        <input type="text" class="form-control" id="order_id" name="order_id" placeholder="" value="<?php echo rand(10000, 99999) ?>" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="items" class="col-sm-2 col-form-label">Items</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="items" name="items" placeholder=""
-                               value="Sample Subscription Item"/>
+                        <input type="text" class="form-control" id="items" name="items" placeholder="" value="Sample Subscription Item" />
                         <em><small>Optional</small></em>
                     </div>
                 </div>
@@ -98,17 +99,14 @@
                 <div class="form-group row">
                     <label for="currency" class="col-sm-2 col-form-label">Amount</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="amount" name="amount" placeholder=""
-                               value="100.00"/>
+                        <input type="number" class="form-control" id="amount" name="amount" placeholder="" value="100.00" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="currency" class="col-sm-2 col-form-label">Recurrence</label>
                     <div class="col-sm-10 input-group">
                         <div class="input-group-prepend">
-                            <input type="number" class="form-control" id="recurrence_int" name="recurrence_int"
-                                   placeholder="" min="1"
-                                   value="1"/>
+                            <input type="number" class="form-control" id="recurrence_int" name="recurrence_int" placeholder="" min="1" value="1" />
                         </div>
                         <select name="recurrence_time" id="recurrence_time" class="form-control">
                             <option value="Week">Week</option>
@@ -121,9 +119,7 @@
                     <label for="currency" class="col-sm-2 col-form-label">Duration</label>
                     <div class="col-sm-10 input-group">
                         <div class="input-group-prepend">
-                            <input type="number" class="form-control" id="duration_int" name="duration_int"
-                                   placeholder="" min="1"
-                                   value="1"/>
+                            <input type="number" class="form-control" id="duration_int" name="duration_int" placeholder="" min="1" value="1" />
                         </div>
                         <select name="duration_time" id="duration_time" class="form-control">
                             <option value="Forever">Forever</option>
@@ -135,6 +131,7 @@
                 </div>
                 <input type="hidden" name="recurrence" id="recurrence" value="">
                 <input type="hidden" name="duration" id="duration" value="">
+                <input type="hidden" id="hash" name="hash" placeholder="" value="" />
 
                 <div class="form-group row">
                     <div class="col-sm-12 text-right">
@@ -151,20 +148,30 @@
         </div>
     </div>
 </div>
+<script src="../vendor/md5.js"></script>
+<script src="../vendor/main.js"></script>
 <script>
+    $(document).ready(function() {
 
-    $(document).ready(function () {
-        $('input').keyup(function () {
+        document.querySelector('#merchant_id').value = localStorage.getItem('merchant_id');
+        document.querySelector('#merchant_secret').value = localStorage.getItem('merchant_secret');
+
+        let form = document.querySelector('#recurring-form');
+        form.addEventListener('submit', function(event) {
+            localStorage.setItem('merchant_id', event.target['merchant_id'].value);
+            localStorage.setItem('merchant_secret', event.target['merchant_secret'].value);
+            event.target.submit();
+        });
+
+        $('input').change(function() {
             $('select').change();
         });
-        $('input').change(function () {
-            $('select').change();
-        });
-        $('select').change(function () {
+        $('select').change(function() {
+            let hash = generateHash('#recurring-form', '#hash');
             var jsonString = $("form").serializeArray();
             var array = {};
-            $.each(jsonString, function (i, row) {
-                if (row.name != 'custom_2' && row.name != 'recurrence_int' && row.name != 'recurrence_time' && row.name != 'duration_int' && row.name != 'duration_time')
+            $.each(jsonString, function(i, row) {
+                if (row.name != 'custom_2' && row.name != 'recurrence_int' && row.name != 'recurrence_time' && row.name != 'duration_int' && row.name != 'duration_time' && row.name != 'merchant_secret')
                     array[row.name] = row.value;
             });
             array['recurrence'] = $('#recurrence_int').val() + ' ' + $('#recurrence_time').val();
@@ -177,7 +184,5 @@
         })
         $('select').change();
     });
-
 </script>
-<?php include 'footer.php' ?>
-s
+<?php include '../common/footer.php' ?>

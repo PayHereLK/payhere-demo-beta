@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-lg-12">
@@ -14,7 +14,7 @@
     </div>
     <div class="row mt-5">
         <div class="col-lg-8">
-            <form action="https://sandbox.payhere.lk/pay/preapprove" method="post">
+            <form action="<?php echo IPG_BASE_URL . 'preapprove' ?>" method="post" id="preapprove-form">
                 <div class="form-group row">
                     <label for="merchant_id" class="col-sm-2 col-form-label">Merchant ID</label>
                     <div class="col-sm-10">
@@ -22,9 +22,15 @@
                         <small><em>You can leave this field.</em></small>
                     </div>
                 </div>
-                <input type="hidden" name="return_url" value="http://payhere.bhasha.lk/payhere-demo-beta/automated-payment/pre-approval-view">
-                <input type="hidden" name="cancel_url" value="http://payhere.bhasha.lk/payhere-demo-beta/automated-payment/pre-approval-view">
-                <input type="hidden" name="notify_url" value="http://payhere.bhasha.lk/payhere-demo-beta/automated-payment/pre-approval-return">
+                <div class="form-group row">
+                    <label for="merchant_id" class="col-sm-2 col-form-label">Merchant Secret</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="merchant_secret" name="merchant_secret" placeholder="">
+                    </div>
+                </div>
+                <input type="hidden" name="return_url" value="<?php echo FRT_BASE_URL . 'automated-payment/pre-approval-view' ?>">
+                <input type="hidden" name="cancel_url" value="<?php echo FRT_BASE_URL . 'automated-payment/pre-approval-view' ?>">
+                <input type="hidden" name="notify_url" value="<?php echo FRT_BASE_URL . 'automated-payment/pre-approval-return' ?>">
                 <input type="hidden" name="custom_2" value="<?php echo session_id() ?>">
                 <div class="form-group row">
                     <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
@@ -61,22 +67,19 @@
                     </div>
                     <label for="country" class="col-sm-2 col-form-label">Country</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="country" name="country" placeholder=""
-                               value="Sri Lanka">
+                        <input type="text" class="form-control" id="country" name="country" placeholder="" value="Sri Lanka">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="order_id" class="col-sm-2 col-form-label">Order ID</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="order_id" name="order_id" placeholder=""
-                               value="<?php echo rand(10000, 99999) ?>"/>
+                        <input type="text" class="form-control" id="order_id" name="order_id" placeholder="" value="<?php echo rand(10000, 99999) ?>" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="items" class="col-sm-2 col-form-label">Items</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="items" name="items" placeholder=""
-                               value="Sample Item"/>
+                        <input type="text" class="form-control" id="items" name="items" placeholder="" value="Sample Item" />
                     </div>
                 </div>
                 <em>Optional</em>
@@ -91,7 +94,8 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 text-right">
-                        <button type="submit" class="btn btn-primary">Submit</button><br/>
+                        <input type="hidden" id="hash" name="hash" placeholder="" value="" />
+                        <button type="submit" class="btn btn-primary">Submit</button><br />
                         <em>After generate the token save in the database according to the customer. </em>
                     </div>
                 </div>
@@ -105,17 +109,31 @@
         </div>
     </div>
 </div>
+<script src="../vendor/md5.js"></script>
+<script src="../vendor/main.js"></script>
 <script>
+    $(document).ready(function() {
 
-    $(document).ready(function () {
-        $('input').keyup(function () {
+
+        document.querySelector('#merchant_id').value = localStorage.getItem('merchant_id');
+        document.querySelector('#merchant_secret').value = localStorage.getItem('merchant_secret');
+
+        let form = document.querySelector('#preapprove-form');
+        form.addEventListener('submit', function(event) {
+            localStorage.setItem('merchant_id', event.target['merchant_id'].value);
+            localStorage.setItem('merchant_secret', event.target['merchant_secret'].value);
+        });
+
+
+        $('input').keyup(function() {
             $('select').change();
         });
-        $('select').change(function () {
+        $('select').change(function() {
+            let hash = generateHash('#preapprove-form', '#hash');
             var jsonString = $("form").serializeArray();
             var array = {};
-            $.each(jsonString, function (i, row) {
-                if (row.name != 'custom_2')
+            $.each(jsonString, function(i, row) {
+                if (row.name != 'custom_2' && row.name != 'merchant_secret')
                     array[row.name] = row.value;
             });
             var jsonPretty = JSON.stringify(array, null, 2);
@@ -123,6 +141,5 @@
         })
         $('select').change();
     });
-
 </script>
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

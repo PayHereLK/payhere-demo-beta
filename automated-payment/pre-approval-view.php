@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 
 <div class="container">
     <div class="row mt-5">
@@ -41,4 +41,4 @@ if ($_data) {
     </div>
 </div>
 
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

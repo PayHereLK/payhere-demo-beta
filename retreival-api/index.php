@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 
 <div class="container">
 
@@ -13,7 +13,7 @@
 
     <div class="row text-center">
 
-        <div class="col-lg-6 col-md-6 mb-6">
+        <div class="col-lg-12 col-md-12 mb-12">
             <div class="card h-100">
                 <div class="card-body">
                     <h4 class="card-title">Retrieval API</h4>
@@ -33,4 +33,4 @@
 
 </div>
 
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

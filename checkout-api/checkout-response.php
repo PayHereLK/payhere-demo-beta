@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 
 <div class="container">
     <div class="row mt-5">
@@ -12,21 +12,21 @@
         <div class="col-lg-8 offset-2">
             <?php
             if (isset($_SESSION['customer_token'])) {
-                ?>
+            ?>
                 <div class="alert alert-info">
                     <h4>Here is the Checkout Response Sends to the notify_url generate by Payhere after the successfull Payments </h4>
                 </div>
-                <?php
+            <?php
             }
             ?>
             <div class="">
                 <h3>POST Data</h3>
-                <br/>
+                <br />
                 <pre class="bg-dark text-white p-3">
 <?php
-$_data = isset($_SESSION['post_values'])?$_SESSION['post_values']:[];
-$json_string = json_encode(unserialize($_data), JSON_PRETTY_PRINT);
+$_data = isset($_SESSION['post_values']) ? $_SESSION['post_values'] : [];
 if ($_data) {
+    $json_string = json_encode(unserialize($_data), JSON_PRETTY_PRINT);
     echo $json_string;
 } else {
     echo 'No Data';
@@ -39,4 +39,4 @@ if ($_data) {
     </div>
 </div>
 
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

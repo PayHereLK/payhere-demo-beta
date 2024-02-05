@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-lg-12">
@@ -13,10 +13,11 @@
     </div>
     <div class="row mt-5">
         <div class="col-lg-7">
-            <form action="https://sandbox.payhere.lk/pay/checkout" method="post">
+            <form action="<?php echo IPG_BASE_URL_SAND . 'checkout' ?>" method="post" id="javascript-form">
                 <div class="form-group row">
                     <label for="merchant_id" class="col-sm-2 col-form-label">Merchant ID</label>
                     <div class="col-sm-10">
+                        <input type="hidden" id="preapprove" name="preapprove" value="true">
                         <input type="text" class="form-control" id="merchant_id" name="merchant_id" placeholder="">
                         <small><em>You can leave this field.</em></small>
                     </div>
@@ -92,9 +93,10 @@
                         <input type="number" class="form-control" id="amount" name="amount" placeholder="" value="100.00" />
                     </div>
                 </div>
-
+                
                 <div class="form-group row">
                     <div class="col-sm-12 text-right">
+                        <input type="hidden" class="form-control" id="hash" name="hash" placeholder="" value="" />
                         <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
@@ -109,12 +111,18 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://sandbox.payhere.lk/lib/payhere.js"></script>
+
+<script type="text/javascript" src="../vendor/md5.js"></script>
+<script type="text/javascript" src="../vendor/main.js"></script>
+<script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 <script>
     $(document).ready(function() {
 
         $('input').change(function() {
             $('.text-danger').html('');
+
+            generateHash('#javascript-form', '#hash');
+            
             var jsonString = $("form").serializeArray();
             var array = {};
             $.each(jsonString, function(i, row) {
@@ -148,9 +156,10 @@
         // Put the payment variables here
 
 
-        $("#chargin-submit").click(function() {
-            var payment = $("#submit-form").serializeArray();
-            payhere.startPayment(payment);
+        $("#submit-button").click(function() {
+            var formArray = document.querySelector("#javascript-form");
+            let payload = Object.fromEntries(new FormData(formArray))
+            payhere.startPayment(payload);
         });
 
     });

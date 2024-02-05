@@ -1,0 +1,52 @@
+.dropdown-menu.right{
+    right: 0;
+    left: auto;
+}
+
+#login-dp {
+    min-width: 450px;
+    padding: 14px;
+    margin-top: 7px;
+    overflow: hidden;
+}
+
+
+@media(max-width:768px) {
+    #login-dp {
+        background-color: inherit;
+        color: #fff;
+    }
+
+    #login-dp .bottom {
+        background-color: inherit;
+        border-top: 0 none;
+    }
+}
+
+#endpoint{
+    display: inline-block;
+}
+
+/* Syntax highlighting */
+.string {
+    color: rgb(8, 184, 160);
+}
+
+.number {
+    color: fuchsia;
+}
+
+.boolean {
+    color: navy;
+}
+
+.null {
+    color: magenta;
+}
+
+.key.itemname {
+    color: rgb(182, 9, 168);
+}
+.key {
+    color: rgb(182, 165, 9);
+}

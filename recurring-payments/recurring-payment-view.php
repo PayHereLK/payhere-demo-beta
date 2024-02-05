@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 <style>
     div.sticky {
         position: -webkit-sticky;
@@ -106,4 +106,4 @@
     }, 65000)
 </script>
 
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

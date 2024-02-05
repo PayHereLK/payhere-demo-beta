@@ -1,8 +1,8 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-lg-12">
-            <h4>Checkout API with Javascript SDK</h4>
+            <h4>Checkout API</h4>
             <p>PayHere Checkout API lets you charge one time Payment from the customers. After Payment Complete Payment
                 Notification details will send you to your notify_url.
                 If you're new to Checkout API, please refer
@@ -13,17 +13,22 @@
     </div>
     <div class="row mt-5">
         <div class="col-lg-7">
-            <form action="<?php echo IPG_BASE_URL . 'checkout' ?>" method="post">
+            <form action="<?php echo IPG_BASE_URL . 'checkout' ?>" method="post" id="checkout-form">
                 <div class="form-group row">
                     <label for="merchant_id" class="col-sm-2 col-form-label">Merchant ID</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="merchant_id" name="merchant_id" placeholder="">
-                        <small><em>You can leave this field.</em></small>
                     </div>
                 </div>
-                <input type="hidden" name="return_url" value="http://payhere.bhasha.lk/payhere-demo-beta/checkout-api/checkout-response">
-                <input type="hidden" name="cancel_url" value="http://payhere.bhasha.lk/payhere-demo-beta/checkout-api/checkout-response">
-                <input type="hidden" name="notify_url" value="http://payhere.bhasha.lk/payhere-demo-beta/checkout-api/checkout-notify">
+                <div class="form-group row">
+                    <label for="merchant_id" class="col-sm-2 col-form-label">Merchant Secret</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="merchant_secret" name="merchant_secret" placeholder="">
+                    </div>
+                </div>
+                <input type="hidden" name="return_url" value="<?php echo FRT_BASE_URL . 'checkout-api/checkout-response' ?>">
+                <input type="hidden" name="cancel_url" value="<?php echo FRT_BASE_URL . 'checkout-api/checkout-response' ?>">
+                <input type="hidden" name="notify_url" value="<?php echo FRT_BASE_URL . 'checkout-api/checkout-notify' ?>">
                 <input type="hidden" name="custom_2" value="<?php echo session_id() ?>">
                 <div class="form-group row">
                     <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
@@ -76,7 +81,6 @@
                         <em><small>Optional</small></em>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label for="currency" class="col-sm-2 col-form-label">Currency</label>
                     <div class="col-sm-10">
@@ -92,10 +96,10 @@
                         <input type="number" class="form-control" id="amount" name="amount" placeholder="" value="100.00" />
                     </div>
                 </div>
-
+                <input type="hidden" id="hash" name="hash" placeholder="" value="" />
                 <div class="form-group row">
                     <div class="col-sm-12 text-right">
-                        <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </form>
@@ -109,50 +113,59 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://sandbox.payhere.lk/lib/payhere.js"></script>
+<script src="../vendor/md5.js"></script>
+<script src="../vendor/main.js"></script>
 <script>
     $(document).ready(function() {
 
+        document.querySelector('#merchant_id').value = localStorage.getItem('merchant_id');
+        document.querySelector('#merchant_secret').value = localStorage.getItem('merchant_secret');
+
+        let form = document.querySelector('#checkout-form');
+        form.addEventListener('submit', function(event) {
+            localStorage.setItem('merchant_id', event.target['merchant_id'].value);
+            localStorage.setItem('merchant_secret', event.target['merchant_secret'].value);
+        });
+
         $('input').change(function() {
             $('.text-danger').html('');
+            let hash = generateHash('#checkout-form', '#hash');
             var jsonString = $("form").serializeArray();
             var array = {};
             $.each(jsonString, function(i, row) {
-                if (row.name != 'custom_2')
+                if (row.name != 'custom_2' && row.name != 'merchant_secret')
                     array[row.name] = row.value;
             });
+
             var jsonPretty = JSON.stringify(array, null, 2);
             $("#form_preview").html(jsonPretty);
-        })
+        });
+
+
+
+        $('select').change(function() {
+            $('input').change();
+        });
         $('input').change();
 
-
-
-        payhere.onCompleted = function onCompleted(orderId) {
-            console.log("Payment completed. OrderID:" + orderId);
-            // Note: validate the payment and show success or failure page to the customer
-        };
-
-        // Payment window closed
-        payhere.onDismissed = function onDismissed() {
-            // Note: Prompt user to pay again or show an error page
-            console.log("Payment dismissed");
-        };
-
-        // Error occurred
-        payhere.onError = function onError(error) {
-            // Note: show an error page
-            console.log("Error:" + error);
-        };
-
-        // Put the payment variables here
-
-
         $("#chargin-submit").click(function() {
-            var payment = $("#submit-form").serializeArray();
-            payhere.startPayment(payment);
+            $.ajax({
+                url: 'chargin-submit',
+                type: 'POST',
+                dataType: 'JSON',
+                data: $("#submit-form").serialize(),
+                success: function(data) {
+                    var order_id = data.charging_submit_response.data.order_id;
+                    $("#payment_div a").attr({
+                        href: '/retreival-api/retrieval-form?id=' + order_id
+                    });
+                    $("#payment_div").slideDown(500);
+                    var jsonPretty = JSON.stringify(data, null, 2);
+                    $("#form_preview").html(jsonPretty);
+                }
+            });
         });
 
     });
 </script>
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>

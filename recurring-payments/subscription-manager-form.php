@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include '../common/header.php' ?>
 <div class="container">
     <div class="row mt-5">
         <div class="col-lg-12">
@@ -13,7 +13,7 @@
     </div>
     <div class="row mt-5">
         <div class="col-lg-6">
-            <form action="https://sandbox.payhere.lk/pay/preapprove" method="post" id="submit-form">
+            <form action="<?php echo IPG_BASE_URL . 'preapprove' ?>" method="post" id="submit-form">
                 <div class="form-group row">
                     <label for="app_id" class="col-sm-2 col-form-label">Business App ID</label>
                     <div class="col-sm-10">
@@ -59,10 +59,9 @@
     </div>
 </div>
 <script>
+    $(document).ready(function() {
 
-    $(document).ready(function () {
-
-        $("#base64_encode").click(function () {
+        $("#base64_encode").click(function() {
             var app_id = $("#app_id").val();
             var app_secret = $("#app_secret").val();
             if (app_id != '' && typeof app_id != 'undefined') {
@@ -77,27 +76,33 @@
             }
         });
 
-        $("#chargin-submit").click(function () {
-            $("#chargin-submit").addClass('disabled').attr({disabled: true}).html('Processing');
+        $("#chargin-submit").click(function() {
+            $("#chargin-submit").addClass('disabled').attr({
+                disabled: true
+            }).html('Processing');
             $.ajax({
                 url: 'subscription-submit',
                 type: 'POST',
                 dataType: 'JSON',
                 data: $("#submit-form").serialize(),
-                success: function (data) {
-                    $("#chargin-submit").removeClass('disabled').attr({disabled: false}).html('Submit');
+                success: function(data) {
+                    $("#chargin-submit").removeClass('disabled').attr({
+                        disabled: false
+                    }).html('Submit');
                     var jsonPretty = JSON.stringify(data, null, 2);
                     $("#form_preview").html(jsonPretty);
                 }
             });
         });
 
-        $("#view-btn").click(function (event) {
+        $("#view-btn").click(function(event) {
             let app_id = $("#app_id").val();
             let app_secret = $("#app_secret").val();
 
             if (typeof app_id !== 'undefined' && app_id !== '' && typeof app_secret !== 'undefined' && app_secret !== '') {
-                $(this).attr({href: 'subscription-view-html?app_id=' + app_id + '&app_secret=' + app_secret});
+                $(this).attr({
+                    href: 'subscription-view-html?app_id=' + app_id + '&app_secret=' + app_secret
+                });
             } else {
                 event.preventDefault();
                 alert("Business App ID and Business APP Secret is Required.");
@@ -105,4 +110,4 @@
         });
     });
 </script>
-<?php include 'footer.php' ?>
+<?php include '../common/footer.php' ?>
